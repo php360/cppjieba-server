@@ -34,7 +34,15 @@ class ReqHandler: public IRequestHandler {
 
   virtual bool DoPOST(const HttpReqInfo& httpReq, string& strSnd) {
     vector<string> words;
-    Run(httpReq.GetBody(), "MIX", "simple", strSnd);
+
+    string sentence, method, format;
+    httpReq.GET("method", method);
+    jieba_.Cut(sentence, words, true);
+    httpReq.GET("format", format);
+
+    Run(httpReq.GetBody(), method,format, strSnd);
+    //Run(httpReq.GetBody(), "MIX", "simple", strSnd);
+
     return true;
   }
 
